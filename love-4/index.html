@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Our Love Story</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<style type="text/css">
+		@font-face {
+			font-family: digit;
+			src: url('digital-7_mono.ttf') format("truetype");
+		}
+	</style>
+	<link href="css/default.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/garden.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+</head>
+
+<body>
+	<div id="mainDiv">
+		<div id="content">
+			<div id="code">
+				<div class="title"> 结婚请柬 </div><br />
+				<span class="space"/><span class="comments" id="name"></span><br /><br />
+				<span class="space"/><span class="comments"> 我们在此诚挚的邀请你参加我们的婚礼</span><br />
+				<span class="space"/><span class="comments"> 地点：陕西宝鸡市岐山县祝家庄上营一组</span><br />
+				<span class="space"/><span class="comments"> 时间：2014-10-03</span><br />
+				</br>
+				<span class="space"/><span class="comments">
+					<a href="moment.html" style="color:red;">这里</a>是我们的一些照片（多图，使用手机时慎点 ^_^）
+				</span><br />
+			</div>
+			<div id="loveHeart">
+				<canvas id="garden"></canvas>
+				<div id="words">
+					<div id="messages">
+						亲爱的朋友, 我们的结婚日期为
+						<div id="elapseClock">
+							<span class="digit">2014</span> 年
+							<span class="digit">10</span> 月
+							<span class="digit">03</span> 日
+					</div>
+					<div id="loveu">
+						期待你的光临！<br/>
+						<div class="signature">- 李萍&朱兆龙</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="copyright">
+			Inspired by <a href="http://hackerzhou.me">hackerzhou.me</a> project.<br />
+		</div>
+	</div>
+	<script type="text/javascript">
+		function getQueryString(name) {
+		    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		    var r = window.location.search.substr(1).match(reg);
+		    if (r != null)
+		    	return decodeURI(r[2]).replace("/", "");
+		    return null;
+		}
+
+		var name = getQueryString("name");
+
+		if (name == "null") {
+			name = "亲爱的朋友"
+		} else {
+			name = "亲爱的" + name;
+		}
+		document.getElementById("name").innerHTML = name + ":";
+
+		var offsetX = $("#loveHeart").width() / 2;
+		var offsetY = $("#loveHeart").height() / 2 - 55;
+
+		if (!document.createElement('canvas').getContext) {
+			var msg = document.createElement("div");
+			msg.id = "errorMsg";
+			msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+";
+			document.body.appendChild(msg);
+			$("#code").css("display", "none")
+			$("#copyright").css("position", "absolute");
+			$("#copyright").css("bottom", "10px");
+		    document.execCommand("stop");
+		} else {
+			setTimeout(function () {
+				startHeartAnimation();
+			}, 1000);
+
+			adjustCodePosition();
+			$("#code").typewriter();
+		}
+
+
+	</script>
+</body>
+</html>

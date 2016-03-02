@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Love</title>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7ynCSut8ATemfdUqd4Aawh76"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="text/javascript" src="js/screenfull.min.js"></script>
+  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="js/InfoBox_min.js"></script>
+</head>
+
+<body>
+  <div id="map_canvas" style="width:100%; height:100%;"></div>
+  <div id="curtain"></div>
+  <div id="end_text" class="centered" style="margin-left: -250px">Happy Birthday, My Rita.</div>
+  <audio preload="auto" id="music">
+    <source src="music/ele.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script type="text/javascript">
+    !function() {
+      var map;
+
+      // 地点
+      var qiShan = new BMap.Point(107.6312110000, 34.4469310000);
+      var xiAn = new BMap.Point(108.8813880000, 34.1432630000);
+      var changChun = new BMap.Point(125.2873520000, 43.8290560000);
+      var beiJing = new BMap.Point(116.4038740000, 39.9148890000);
+      var france = new BMap.Point(2.2, 48.52);
+      var yangZhou = new BMap.Point(119.4277780000, 32.4085050000);
+      var shenZhen = new BMap.Point(114.0259740000, 22.5460540000);
+      var zhuJiaZhuang = new BMap.Point(107.7896630000, 34.4941340000);
+
+
+      var boyIcon = new BMap.Icon("photos/blue-dot.png", new BMap.Size(30, 30));
+      var girlIcon = new BMap.Icon("photos/red-dot.png", new BMap.Size(30, 30));
+
+
+      var level = 5;
+
+      function init() {
+        var music =  document.getElementById("music");
+        music.play();
+
+        map = new BMap.Map("map_canvas");
+        map.centerAndZoom(qiShan, level);
+
+        // var mapStyle = {
+        //   style : "dark"  //设置地图风格为高端黑
+        // };
+        // map.setMapStyle(mapStyle);
+      }
+
+      function showPhotos() {
+        var photos = [
+          {
+            boyPoint: qiShan,
+            girlPoint: qiShan,
+            photoPoint: qiShan,
+            photoName: 'first_meet.jpeg',
+            height: 275,
+            text: "我们的故事从这里开始，从同桌的你开始，这里充满了美好的回忆",
+            title: '2003年7月--相遇'
+          },
+          {
+            boyPoint: changChun,
+            girlPoint: xiAn,
+            photoPoint: changChun,
+            photoName: 'chang_chun.jpeg',
+            height: 340,
+            text: "从2006年开始了长达7年的异地恋，我们来往于彼此所在的城市",
+            title: '2009年7月--在长春'
+          },
+          {
+            boyPoint: changChun,
+            girlPoint: xiAn,
+            photoPoint: beiJing,
+            photoName: 'beijing.jpg',
+            height: 350,
+            text: "异地恋的艰辛让我们更加珍惜久别重逢的幸福时刻",
+            title: '2010年--北京'
+          },
+          {
+            boyPoint: changChun,
+            girlPoint: france,
+            photoPoint: france,
+            photoName: 'france.jpg',
+            height: 350,
+            text: "即使远在他国，思念也从未停止",
+            title: '2011年--法国'
+          },
+          {
+            boyPoint: changChun,
+            girlPoint: shenZhen,
+            photoPoint: shenZhen,
+            photoName: 'shenzhen.jpg',
+            height: 370,
+            text: "一个人在深圳，坚强的笑容后面不知默默流下多少相思泪",
+            title: '2012年--深圳'
+          },
+          {
+            boyPoint: beiJing,
+            girlPoint: beiJing,
+            photoPoint: yangZhou,
+            photoName: 'yangzhou.jpg',
+            height: 350,
+            text: "2013年终于在一起，天涯海角我们一起走！",
+            title: "2013--扬州"
+          },
+          {
+            boyPoint: zhuJiaZhuang,
+            girlPoint: zhuJiaZhuang,
+            photoPoint: zhuJiaZhuang,
+            photoName: 'marry.jpg',
+            height: 340,
+            text: "2014年我们要结婚啦，结束9年爱情马拉松，在此恭候您的光临^_^！",
+            title: "2014--结婚"
+          }
+        ];
+
+        var len = photos.length;
+        var p = photos[0];
+        showPhoto(p);
+
+        if (len > 1) {
+          var i = 1;
+          var timeout = setInterval(function () {
+            var p = photos[i];
+            if (++i == len + 1) {
+              clearInterval(timeout);
+            } else {
+              showPhoto(p);
+            }
+          }, 8000);
+
+        }
+      }
+
+      function showPhoto(p) {
+        map.clearOverlays();
+        var boy = new BMap.Marker(p.boyPoint, {icon: boyIcon});
+        map.addOverlay(boy);
+        var girl = new BMap.Marker(p.girlPoint, {icon: girlIcon});
+        map.addOverlay(girl);
+
+        var opts = {
+          title: p.title,
+        }
+        var sContent =
+          "<div class='love-img'>" +
+          "<div><img src='photos/" + p.photoName + "' width='400'/></div>" +
+          "<div class='love-desc'>" + p.text + "</div>";
+          "</div>";
+
+        var infoWindow = new BMap.InfoWindow(sContent, opts);
+        infoWindow.setWidth(400);
+        infoWindow.setHeight(p.height);
+        map.openInfoWindow(infoWindow, p.photoPoint);
+
+        if (p.boyPoint == p.girlPoint) {
+          boy.setAnimation(BMAP_ANIMATION_BOUNCE);
+        }
+      }
+
+      init();
+      showPhotos();
+    }();
+  </script>
+</body>
+</html>
